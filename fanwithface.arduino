@@ -1,0 +1,19 @@
+const int fanPin = 9; // PWM-capable pin for the fan
+
+void setup() {
+  Serial.begin(9600); // Initialize serial communication
+  pinMode(fanPin, OUTPUT); // Set fan pin as output
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    // Read the number of matches from the serial input
+    int matches = Serial.parseInt();
+
+    // Map the number of matches (0-10) to PWM value (0-255)
+    int pwmValue = map(matches, 0, 10, 0, 255);
+
+    // Set the fan speed based on the PWM value
+    analogWrite(fanPin, pwmValue);
+  }
+}
