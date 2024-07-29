@@ -1,0 +1,44 @@
+const int lightSensorPin = A1; // Adjust to your light sensor pin
+const int buzzerPin = 6; // Adjust to your buzzer pin
+const int threshold = 650;
+const int duration = 15000; // 15 seconds in milliseconds
+
+unsigned long startTime = 0;
+boolean buzzerOn = false;
+
+void setup() {
+  pinMode(lightSensorPin, INPUT);
+  pinMode(buzzerPin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int sensorValue = analogRead(lightSensorPin);
+  Serial.println(sensorValue);
+  if (sensorValue > threshold) {
+    if (!buzzerOn) {
+      startTime = millis();
+      buzzerOn = true;
+    }
+  if (millis() - startTime >= duration) {
+      tone(buzzerPin, 100);
+      delay(300);
+
+      tone(buzzerPin, 500);
+      delay(300);
+
+      tone(buzzerPin, 1000);
+      delay(3000);
+
+      noTone(buzzerPin);
+      delay(1000);
+
+      Serial.println("----------- ALARM ACTIVATED -----------");
+    }
+  } else {
+    buzzerOn = false;
+    noTone(buzzerPin);
+    Serial.println("ALARM DEACTIVATED");
+  }
+}
+
