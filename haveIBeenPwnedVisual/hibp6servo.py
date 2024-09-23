@@ -4,7 +4,7 @@ import time
 from pyfirmata import Arduino, SERVO
 
 # Connect to Arduino (replace with your actual port)
-board = Arduino('/dev/cu.usbmodem14101')
+board = Arduino('/dev/ttyACM0')
 
 # Define servo pins (replace with your actual pin numbers for each servo)
 #servos = (board.digital[pin] for pin in range(9, 12))  # Assuming 10 servos on pins 9 to 18
