@@ -54,7 +54,7 @@ def check_hibp(email):
     """
 
     # Replace with your actual HIBP API key (don't share this publicly!)
-    api_key = "21dc2056a3a242e7bd9f862bf7918093"
+    api_key = "ENTER YOUR OWN KEY BBS"
     headers = {"hibp-api-key": api_key}
     url = f"https://haveibeenpwned.com/api/v3/breachedaccount/{email}"
 

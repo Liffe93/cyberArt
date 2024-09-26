@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Have I Been Pwned Check</title>
+</head>
+<body>
+    <h1>Check if your email has been breached</h1>
+    <form method="POST" action="/">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required>
+        <br><br>
+        <input type="checkbox" id="opt_in" name="opt_in">
+        <label for="opt_in">Opt-in to receive a digital safety kit</label>
+        <br><br>
+        <button type="submit">Check</button>
+    </form>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+</body>
+</html>
