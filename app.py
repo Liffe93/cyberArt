@@ -5,10 +5,11 @@ import time
 from pyfirmata import Arduino, SERVO
 import smtplib
 from email.mime.text import MIMEText
+from config import SECRET_KEY, HIBP_API_KEY, EMAIL_ADDRESS, EMAIL_PASSWORD, EMAIL_SERVER
 
 # Initialize Flask app
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Needed for session management
+app.secret_key = SECRET_KEY  # Needed for session management
 
 # Connect to Arduino
 board = Arduino('/dev/cu.usbmodem14101')
@@ -23,7 +24,11 @@ for servo in servos:
 
 
 def check_hibp(email):
-    api_key = "YOUR_HIBP_API_KEY"
+    if(HIBP_API_KEY is None):
+        print("HIBP_API_KEY is not set. Please set the HIBP_API_KEY environment variable.")
+        return None
+
+    api_key = HIBP_API_KEY
     headers = {"hibp-api-key": api_key}
     url = f"https://haveibeenpwned.com/api/v3/breachedaccount/{email}"
 
@@ -67,8 +72,12 @@ def control_servos(num_breaches):
 
 
 def send_email(recipient):
-    sender = 'youremail@example.com'
-    password = 'yourpassword'
+    if(EMAIL_ADDRESS is None or EMAIL_PASSWORD is None or EMAIL_SERVER is None):
+        print("EMAIL_ADDRESS, EMAIL_PASSWORD, or EMAIL_SERVER is not set. Please set the environment variables.")
+        return
+
+    sender = EMAIL_ADDRESS
+    password = EMAIL_PASSWORD
 
     msg = MIMEText("Here is your digital safety kit!")
     msg['Subject'] = 'Digital Safety Kit'
@@ -76,7 +85,7 @@ def send_email(recipient):
     msg['To'] = recipient
 
     try:
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+        with smtplib.SMTP_SSL(EMAIL_SERVER, 465) as server:
             server.login(sender, password)
             server.sendmail(sender, recipient, msg.as_string())
         print("Email sent successfully!")
