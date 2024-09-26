@@ -5,10 +5,11 @@ import time
 from pyfirmata import Arduino, SERVO
 import smtplib
 from email.mime.text import MIMEText
+from config import SECRET_KEY
 
 # Initialize Flask app
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Needed for session management
+app.secret_key = SECRET_KEY  # Needed for session management
 
 # Connect to Arduino
 board = Arduino('/dev/cu.usbmodem14101')
